@@ -23,4 +23,29 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn compile
+  security-check:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: trivy installation
+      run: |
+            sudo apt-get update
+            sudo apt-get install wget gnupg -y
+            wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | \
+            gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+            echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | \
+            sudo tee /etc/apt/sources.list.d/trivy.list > /dev/null
+            sudo apt-get update
+            sudo apt-get install trivy -y
+    - name: trivy FS scan
+      run: trivy fs --format -o fs-report.json .
+    - name: gitleaks installation
+      run: sudo apt install gitleaks -y
+    - name: gitleaks code scan
+      run: gitleaks detect source . -r gitleasks-report.json -f json
+
+
+
 
