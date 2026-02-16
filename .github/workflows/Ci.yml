@@ -1,0 +1,23 @@
+name: java_CI
+
+on:
+  push: 
+   branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setupjava
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+      - name: build
+        run: mvn clean package
+          
+
+
+   
