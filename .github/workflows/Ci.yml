@@ -21,6 +21,8 @@ jobs:
 
       - name: compile
         run: mvn compile
+      - name: Build Project
+        run: mvn -B clean verify
 
       - name: test
         run: mvn test
