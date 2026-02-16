@@ -16,12 +16,16 @@ jobs:
         with:
           distribution: 'temurin'   # REQUIRED
           java-version: '17'
+  
 
+      - name: compile
+        run: mvn compile
 
-     
+      - name: test
+        run: mv test
 
       - name: build
-        run: mvn clean package
+        run: mvn package
           
 
 
